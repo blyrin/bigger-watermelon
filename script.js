@@ -195,7 +195,7 @@ class WatermelonGame {
 
         // 音量包络
         gainNode.gain.setValueAtTime(0, this.audioContext.currentTime)
-        gainNode.gain.linearRampToValueAtTime(0.1, this.audioContext.currentTime + 0.01)
+        gainNode.gain.linearRampToValueAtTime(0.5, this.audioContext.currentTime + 0.01)
         gainNode.gain.exponentialRampToValueAtTime(0.001, this.audioContext.currentTime + duration)
 
         oscillator.start(this.audioContext.currentTime)
