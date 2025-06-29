@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no" />
+    <title>合成大西瓜</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="game-container">
+      <div class="header">
+        <h1>合成大西瓜</h1>
+        <div class="project-link">
+          <a href="https://github.com/blyrin/bigger-watermelon" target="_blank" rel="noopener noreferrer">
+            <span class="github-icon">⭐</span> GitHub - blyrin/bigger-watermelon
+          </a>
+        </div>
+        <div class="score-container">
+          <div class="score">得分: <span id="score">0</span></div>
+          <div class="high-score">最高分: <span id="highScore">0</span></div>
+        </div>
+      </div>
+      <div class="game-area">
+        <canvas id="gameCanvas" width="400" height="600"></canvas>
+        <div class="next-fruit">
+          <div class="label">下一个:</div>
+          <div id="nextFruit" class="fruit-preview"></div>
+        </div>
+      </div>
+      <div class="controls">
+        <div id="gameRestored" class="game-restored" style="display: none">
+          <p>🎮 游戏状态已恢复，继续之前的游戏！</p>
+        </div>
+        <div class="control-buttons">
+          <button id="restartBtn">重新开始</button>
+          <button id="soundToggle" class="sound-btn">🔊 音效</button>
+        </div>
+      </div>
+      <div class="game-over" id="gameOver" style="display: none">
+        <div class="game-over-content">
+          <h2>游戏结束</h2>
+          <p>最终得分: <span id="finalScore">0</span></p>
+          <p id="newRecord" style="display: none; color: #ffd700; font-weight: bold">🎉 恭喜！创造新纪录！</p>
+          <p>最高分: <span id="gameOverHighScore">0</span></p>
+          <button id="restartBtn2">再来一局</button>
+        </div>
+      </div>
+    </div>
+    <script src="script.js"></script>
+  </body>
+</html>
