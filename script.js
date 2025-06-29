@@ -306,16 +306,26 @@ class WatermelonGame {
     )
 
     document.getElementById('restartBtn').addEventListener('click', () => {
-      this.restart()
+      this.showRestartConfirm()
     })
 
     document.getElementById('restartBtn2').addEventListener('click', () => {
-      this.restart()
+      this.showRestartConfirm()
     })
 
     // 音效开关按钮
     document.getElementById('soundToggle').addEventListener('click', () => {
       this.toggleSound()
+    })
+
+    // 确认重新开始按钮
+    document.getElementById('confirmRestart').addEventListener('click', () => {
+      this.restart()
+    })
+
+    // 取消重新开始按钮
+    document.getElementById('cancelRestart').addEventListener('click', () => {
+      this.hideRestartConfirm()
     })
   }
 
@@ -704,6 +714,27 @@ class WatermelonGame {
     document.getElementById('gameOver').style.display = 'flex'
   }
 
+  showRestartConfirm() {
+    // 如果游戏已经结束，直接重新开始，不需要确认
+    if (this.gameOver) {
+      this.restart()
+      return
+    }
+
+    // 如果没有水果或分数为0，直接重新开始
+    if (this.fruits.length === 0 || this.score === 0) {
+      this.restart()
+      return
+    }
+
+    // 显示确认对话框
+    document.getElementById('restartConfirm').style.display = 'flex'
+  }
+
+  hideRestartConfirm() {
+    document.getElementById('restartConfirm').style.display = 'none'
+  }
+
   restart() {
     this.fruits = []
     this.score = 0
@@ -712,6 +743,7 @@ class WatermelonGame {
     this.updateScore(false)
     this.clearGameState()
     document.getElementById('gameOver').style.display = 'none'
+    this.hideRestartConfirm()
   }
 }
 

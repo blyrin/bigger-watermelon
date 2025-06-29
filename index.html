@@ -22,13 +22,6 @@
           <div class="high-score">最高分: <span id="highScore">0</span></div>
         </div>
       </div>
-      <div class="game-area">
-        <div class="next-fruit">
-          <div class="label">下一个:</div>
-          <div id="nextFruit" class="fruit-preview"></div>
-        </div>
-        <canvas id="gameCanvas" width="400" height="600"></canvas>
-      </div>
       <div class="controls">
         <div id="gameRestored" class="game-restored" style="display: none">
           <p>🎮 游戏状态已恢复，继续之前的游戏！</p>
@@ -38,6 +31,13 @@
           <button id="soundToggle" class="sound-btn">🔊 音效</button>
         </div>
       </div>
+      <div class="game-area">
+        <div class="next-fruit">
+          <div class="label">下一个:</div>
+          <div id="nextFruit" class="fruit-preview"></div>
+        </div>
+        <canvas id="gameCanvas" width="400" height="600"></canvas>
+      </div>
       <div class="game-over" id="gameOver" style="display: none">
         <div class="game-over-content">
           <h2>游戏结束</h2>
@@ -45,6 +45,17 @@
           <p id="newRecord" style="display: none; color: #ffd700; font-weight: bold">🎉 恭喜！创造新纪录！</p>
           <p>最高分: <span id="gameOverHighScore">0</span></p>
           <button id="restartBtn2">再来一局</button>
+        </div>
+      </div>
+      <div class="restart-confirm" id="restartConfirm" style="display: none">
+        <div class="restart-confirm-content">
+          <h3>确认重新开始</h3>
+          <p>当前游戏正在进行中，重新开始将丢失当前进度。</p>
+          <p>确定要重新开始吗？</p>
+          <div class="confirm-buttons">
+            <button id="confirmRestart" class="confirm-btn">确定</button>
+            <button id="cancelRestart" class="cancel-btn">取消</button>
+          </div>
         </div>
       </div>
     </div>
