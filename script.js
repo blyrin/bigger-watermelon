@@ -11,6 +11,10 @@ class WatermelonGame {
     this.highScoreKey = 'bigger-watermelon-high-score'
     this.gameStateKey = 'bigger-watermelon-state'
 
+    // 默认显示尺寸
+    this.displayWidth = 400
+    this.displayHeight = 600
+
     // 音效系统
     this.audioContext = null
     this.sounds = {}
@@ -67,34 +71,51 @@ class WatermelonGame {
   }
 
   resizeCanvas() {
-    // 计算合适的画布尺寸
-    let canvasWidth = 400
-    let canvasHeight = 600
+    // 获取设备像素比，用于高DPI屏幕
+    const dpr = window.devicePixelRatio || 1
 
-    // 根据屏幕宽度调整
+    // 计算合适的画布显示尺寸
+    let displayWidth = 400
+    let displayHeight = 600
+
+    // 根据屏幕宽度调整显示尺寸
     if (window.innerWidth <= 360) {
-      canvasWidth = Math.min(280, window.innerWidth - 40)
-      canvasHeight = canvasWidth * 1.5
+      displayWidth = Math.min(280, window.innerWidth - 40)
+      displayHeight = displayWidth * 1.5
     } else if (window.innerWidth <= 480) {
-      canvasWidth = Math.min(300, window.innerWidth - 40)
-      canvasHeight = canvasWidth * 1.5
+      displayWidth = Math.min(300, window.innerWidth - 40)
+      displayHeight = displayWidth * 1.5
     } else if (window.innerWidth <= 768) {
-      canvasWidth = Math.min(350, window.innerWidth - 60)
-      canvasHeight = canvasWidth * 1.5
+      displayWidth = Math.min(350, window.innerWidth - 60)
+      displayHeight = displayWidth * 1.5
     }
 
     // 横屏模式调整
     if (window.innerHeight <= 600 && window.innerWidth > window.innerHeight) {
-      canvasHeight = Math.min(400, window.innerHeight - 100)
-      canvasWidth = canvasHeight * 0.67
+      displayHeight = Math.min(400, window.innerHeight - 100)
+      displayWidth = displayHeight * 0.67
     }
 
-    // 设置画布尺寸
-    this.canvas.width = canvasWidth
-    this.canvas.height = canvasHeight
+    // 设置canvas的实际像素尺寸（考虑设备像素比）
+    const actualWidth = displayWidth * dpr
+    const actualHeight = displayHeight * dpr
 
-    // 调整游戏结束线位置（相对于画布高度的比例）
-    this.dropLine = canvasHeight * 0.2
+    this.canvas.width = actualWidth
+    this.canvas.height = actualHeight
+
+    // 设置canvas的CSS显示尺寸
+    this.canvas.style.width = displayWidth + 'px'
+    this.canvas.style.height = displayHeight + 'px'
+
+    // 缩放绘图上下文以匹配设备像素比
+    this.ctx.scale(dpr, dpr)
+
+    // 调整游戏结束线位置（相对于显示高度的比例）
+    this.dropLine = displayHeight * 0.2
+
+    // 存储显示尺寸供其他方法使用
+    this.displayWidth = displayWidth
+    this.displayHeight = displayHeight
   }
 
   // 初始化音效系统
@@ -315,15 +336,13 @@ class WatermelonGame {
 
   dropFruit(e) {
     const rect = this.canvas.getBoundingClientRect()
-    // 计算画布的缩放比例
-    const scaleX = this.canvas.width / rect.width
 
-    // 转换鼠标坐标到画布坐标
-    const x = (e.clientX - rect.left) * scaleX
+    // 转换鼠标坐标到显示坐标系
+    const x = (e.clientX - rect.left) * (this.displayWidth / rect.width)
 
     const config = this.fruitConfig[this.nextFruitType]
     const fruit = {
-      x: Math.max(config.radius, Math.min(this.canvas.width - config.radius, x)),
+      x: Math.max(config.radius, Math.min(this.displayWidth - config.radius, x)),
       y: config.radius,
       vx: 0,
       vy: 0,
@@ -365,12 +384,12 @@ class WatermelonGame {
         fruit.x = fruit.radius
         fruit.vx *= -this.bounce
       }
-      if (fruit.x + fruit.radius > this.canvas.width) {
-        fruit.x = this.canvas.width - fruit.radius
+      if (fruit.x + fruit.radius > this.displayWidth) {
+        fruit.x = this.displayWidth - fruit.radius
         fruit.vx *= -this.bounce
       }
-      if (fruit.y + fruit.radius > this.canvas.height) {
-        fruit.y = this.canvas.height - fruit.radius
+      if (fruit.y + fruit.radius > this.displayHeight) {
+        fruit.y = this.displayHeight - fruit.radius
         fruit.vy *= -this.bounce
       }
     }
@@ -530,7 +549,7 @@ class WatermelonGame {
 
   render() {
     // 清空画布
-    this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height)
+    this.ctx.clearRect(0, 0, this.displayWidth, this.displayHeight)
 
     // 绘制游戏结束线
     this.ctx.strokeStyle = '#ff6b6b'
@@ -538,7 +557,7 @@ class WatermelonGame {
     this.ctx.setLineDash([5, 5])
     this.ctx.beginPath()
     this.ctx.moveTo(0, this.dropLine)
-    this.ctx.lineTo(this.canvas.width, this.dropLine)
+    this.ctx.lineTo(this.displayWidth, this.dropLine)
     this.ctx.stroke()
     this.ctx.setLineDash([])
 
