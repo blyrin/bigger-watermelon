@@ -260,6 +260,98 @@ body {
   margin-bottom: 30px;
 }
 
+/* 分享按钮样式 */
+.share-section {
+  margin: 30px 0;
+  padding: 20px 0;
+  border-top: 1px solid #eee;
+  border-bottom: 1px solid #eee;
+}
+
+.share-text {
+  font-size: 1.1em;
+  color: #666;
+  margin-bottom: 15px !important;
+  font-weight: 500;
+}
+
+.share-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.share-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 70px;
+  height: 70px;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 12px;
+  color: white;
+  text-decoration: none;
+  position: relative;
+  overflow: hidden;
+}
+
+.share-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+}
+
+.share-btn:active {
+  transform: translateY(0);
+}
+
+.share-icon {
+  font-size: 20px;
+  margin-bottom: 4px;
+  display: block;
+}
+
+.share-label {
+  font-size: 11px;
+  font-weight: 500;
+  line-height: 1;
+}
+
+/* 各平台按钮颜色 */
+.wechat-btn {
+  background: linear-gradient(135deg, #07c160, #00ae47);
+}
+
+.weibo-btn {
+  background: linear-gradient(135deg, #e6162d, #c41230);
+}
+
+.qq-btn {
+  background: linear-gradient(135deg, #12b7f5, #0e9ce8);
+}
+
+.copy-btn {
+  background: linear-gradient(135deg, #6c757d, #5a6268);
+}
+
+.copy-btn.copied {
+  background: linear-gradient(135deg, #28a745, #20c997);
+}
+
+.copy-btn.copied .share-label {
+  animation: copySuccess 0.3s ease;
+}
+
+@keyframes copySuccess {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+  100% { transform: scale(1); }
+}
+
 #restartBtn2 {
   background: linear-gradient(45deg, #4ecdc4, #44a08d);
   color: white;
@@ -506,6 +598,36 @@ body {
   .game-over-content p {
     font-size: 1.1em;
     margin-bottom: 20px;
+  }
+
+  /* 移动端分享按钮样式 */
+  .share-section {
+    margin: 20px 0;
+    padding: 15px 0;
+  }
+
+  .share-text {
+    font-size: 1em;
+    margin-bottom: 12px !important;
+  }
+
+  .share-buttons {
+    gap: 8px;
+  }
+
+  .share-btn {
+    width: 60px;
+    height: 60px;
+    border-radius: 10px;
+  }
+
+  .share-icon {
+    font-size: 18px;
+    margin-bottom: 3px;
+  }
+
+  .share-label {
+    font-size: 10px;
   }
 
   #restartBtn2 {

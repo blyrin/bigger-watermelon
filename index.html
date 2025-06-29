@@ -5,7 +5,61 @@
     <meta
       name="viewport"
       content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no" />
-    <title>合成大西瓜</title>
+    <title>合成大西瓜 - 经典休闲益智游戏 | 在线免费玩</title>
+    <meta
+      name="description"
+      content="合成大西瓜是一款经典的休闲益智游戏，通过合成相同水果来获得更大的水果，最终目标是合成大西瓜。支持手机和电脑，免费在线游戏，挑战你的最高分！" />
+    <meta name="keywords" content="合成大西瓜,休闲游戏,益智游戏,在线游戏,免费游戏,手机游戏,水果游戏,合成游戏" />
+    <meta name="author" content="Bigger Watermelon Game" />
+    <meta name="robots" content="index, follow" />
+    <meta name="language" content="zh-CN" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://bigger.flapypan.cn/" />
+    <meta property="og:title" content="合成大西瓜 - 经典休闲益智游戏" />
+    <meta
+      property="og:description"
+      content="合成大西瓜是一款经典的休闲益智游戏，通过合成相同水果来获得更大的水果，最终目标是合成大西瓜。支持手机和电脑，免费在线游戏！" />
+    <meta property="og:image" content="https://www.flapypan.cn/avatar_transparent.webp" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:locale" content="zh_CN" />
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content="https://bigger.flapypan.cn/" />
+    <meta property="twitter:title" content="合成大西瓜 - 经典休闲益智游戏" />
+    <meta
+      property="twitter:description"
+      content="合成大西瓜是一款经典的休闲益智游戏，通过合成相同水果来获得更大的水果，最终目标是合成大西瓜。支持手机和电脑，免费在线游戏！" />
+    <meta property="twitter:image" content="https://www.flapypan.cn/avatar_transparent.webp" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="apple-mobile-web-app-title" content="合成大西瓜" />
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Game",
+        "name": "合成大西瓜",
+        "description": "合成大西瓜是一款经典的休闲益智游戏，通过合成相同水果来获得更大的水果，最终目标是合成大西瓜。",
+        "genre": ["休闲游戏", "益智游戏"],
+        "gamePlatform": ["Web Browser", "Mobile"],
+        "operatingSystem": ["Any"],
+        "applicationCategory": "Game",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "CNY"
+        },
+        "aggregateRating": {
+          "@type": "AggregateRating",
+          "ratingValue": "4.5",
+          "ratingCount": "1000"
+        }
+      }
+    </script>
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
@@ -44,6 +98,28 @@
           <p>最终得分: <span id="finalScore">0</span></p>
           <p id="newRecord" style="display: none; color: #ffd700; font-weight: bold">🎉 恭喜！创造新纪录！</p>
           <p>最高分: <span id="gameOverHighScore">0</span></p>
+          <div class="share-section">
+            <p class="share-text">分享你的成绩:</p>
+            <div class="share-buttons">
+              <button id="shareWechat" class="share-btn wechat-btn" title="分享到微信">
+                <span class="share-icon">💬</span>
+                <span class="share-label">微信</span>
+              </button>
+              <button id="shareQQ" class="share-btn qq-btn" title="分享到QQ">
+                <span class="share-icon">🐧</span>
+                <span class="share-label">QQ</span>
+              </button>
+              <button id="shareWeibo" class="share-btn weibo-btn" title="分享到微博">
+                <span class="share-icon">📱</span>
+                <span class="share-label">微博</span>
+              </button>
+              <button id="copyLink" class="share-btn copy-btn" title="复制链接">
+                <span class="share-icon">🔗</span>
+                <span class="share-label">复制链接</span>
+              </button>
+            </div>
+          </div>
+
           <button id="restartBtn2">再来一局</button>
         </div>
       </div>

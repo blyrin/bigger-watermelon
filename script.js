@@ -712,6 +712,9 @@ class WatermelonGame {
     // 游戏结束时清除保存的游戏状态
     this.clearGameState()
     document.getElementById('gameOver').style.display = 'flex'
+
+    // 绑定分享按钮事件
+    this.bindShareEvents()
   }
 
   showRestartConfirm() {
@@ -744,6 +747,184 @@ class WatermelonGame {
     this.clearGameState()
     document.getElementById('gameOver').style.display = 'none'
     this.hideRestartConfirm()
+  }
+
+  bindShareEvents() {
+    const shareWechat = document.getElementById('shareWechat')
+    const shareQQ = document.getElementById('shareQQ')
+    const shareWeibo = document.getElementById('shareWeibo')
+    const copyLink = document.getElementById('copyLink')
+
+    // 移除之前的事件监听器（避免重复绑定）
+    shareWechat.replaceWith(shareWechat.cloneNode(true))
+    shareWeibo.replaceWith(shareWeibo.cloneNode(true))
+    shareQQ.replaceWith(shareQQ.cloneNode(true))
+    copyLink.replaceWith(copyLink.cloneNode(true))
+
+    // 重新获取元素引用
+    const newShareWechat = document.getElementById('shareWechat')
+    const newShareWeibo = document.getElementById('shareWeibo')
+    const newShareQQ = document.getElementById('shareQQ')
+    const newCopyLink = document.getElementById('copyLink')
+
+    // 分享到微信
+    newShareWechat.addEventListener('click', () => {
+      this.shareToWechat()
+    })
+
+    // 分享到微博
+    newShareWeibo.addEventListener('click', () => {
+      this.shareToWeibo()
+    })
+
+    // 分享到QQ
+    newShareQQ.addEventListener('click', () => {
+      this.shareToQQ()
+    })
+
+    // 复制链接
+    newCopyLink.addEventListener('click', () => {
+      this.copyGameLink()
+    })
+  }
+
+  // 生成分享文本
+  getShareText() {
+    const isNewRecord = this.score === this.highScore && this.score > 0
+    if (isNewRecord) {
+      return `🎉 我在合成大西瓜游戏中创造了新纪录！得分：${this.score}分！快来挑战我的记录吧！`
+    } else {
+      return `🍉 我在合成大西瓜游戏中得了${this.score}分！你能超越我吗？快来试试吧！`
+    }
+  }
+
+  // 分享到微信
+  shareToWechat() {
+    const shareText = this.getShareText()
+    const gameUrl = window.location.href
+
+    // 检查是否在微信环境中
+    if (this.isWechat()) {
+      // 在微信中，显示提示用户点击右上角分享
+      this.showShareTip('请点击右上角"..."按钮分享给朋友')
+    } else {
+      // 非微信环境，尝试调用微信分享或复制文本
+      if (navigator.share) {
+        navigator
+          .share({
+            title: '合成大西瓜',
+            text: shareText,
+            url: gameUrl,
+          })
+          .catch(() => {
+            this.copyToClipboard(`${shareText} ${gameUrl}`)
+          })
+      } else {
+        this.copyToClipboard(`${shareText} ${gameUrl}`)
+      }
+    }
+  }
+
+  // 分享到QQ
+  shareToQQ() {
+    const shareText = this.getShareText()
+    const gameUrl = window.location.href
+    const qqUrl = `https://connect.qq.com/widget/shareqq/index.html?url=${encodeURIComponent(
+      gameUrl
+    )}&title=${encodeURIComponent(shareText)}&source=${encodeURIComponent('合成大西瓜游戏')}`
+    window.open(qqUrl, '_blank', 'width=600,height=400')
+  }
+
+  // 分享到微博
+  shareToWeibo() {
+    const shareText = this.getShareText()
+    const gameUrl = window.location.href
+    const weiboUrl = `https://service.weibo.com/share/share.php?url=${encodeURIComponent(
+      gameUrl
+    )}&title=${encodeURIComponent(shareText)}&pic=&appkey=`
+    window.open(weiboUrl, '_blank', 'width=600,height=400')
+  }
+
+  // 复制游戏链接
+  copyGameLink() {
+    const shareText = this.getShareText()
+    const gameUrl = window.location.href
+    const fullText = `${shareText} ${gameUrl}`
+    this.copyToClipboard(fullText)
+  }
+
+  // 复制到剪贴板
+  copyToClipboard(text) {
+    if (navigator.clipboard && window.isSecureContext) {
+      navigator.clipboard
+        .writeText(text)
+        .then(() => {
+          this.showCopySuccess()
+        })
+        .catch(() => {
+          this.fallbackCopyToClipboard(text)
+        })
+    } else {
+      this.fallbackCopyToClipboard(text)
+    }
+  }
+
+  // 备用复制方法
+  fallbackCopyToClipboard(text) {
+    const textArea = document.createElement('textarea')
+    textArea.value = text
+    textArea.style.position = 'fixed'
+    textArea.style.left = '-999999px'
+    textArea.style.top = '-999999px'
+    document.body.appendChild(textArea)
+    textArea.focus()
+    textArea.select()
+    try {
+      document.execCommand('copy')
+      this.showCopySuccess()
+    } catch (err) {
+      this.showShareTip('复制失败，请手动复制链接')
+    }
+    document.body.removeChild(textArea)
+  }
+
+  showCopySuccess() {
+    const copyBtn = document.getElementById('copyLink')
+    const originalLabel = copyBtn.querySelector('.share-label').textContent
+    copyBtn.classList.add('copied')
+    copyBtn.querySelector('.share-label').textContent = '已复制'
+    setTimeout(() => {
+      copyBtn.classList.remove('copied')
+      copyBtn.querySelector('.share-label').textContent = originalLabel
+    }, 2000)
+  }
+
+  showShareTip(message) {
+    const tip = document.createElement('div')
+    tip.style.cssText = `
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: rgba(0, 0, 0, 0.8);
+      color: white;
+      padding: 15px 20px;
+      border-radius: 8px;
+      font-size: 14px;
+      z-index: 10000;
+      max-width: 80%;
+      text-align: center;
+    `
+    tip.textContent = message
+    document.body.appendChild(tip)
+    setTimeout(() => {
+      document.body.removeChild(tip)
+    }, 3000)
+  }
+
+  // 检查是否在微信环境
+  isWechat() {
+    return /micromessenger/i.test(navigator.userAgent)
   }
 }
 
