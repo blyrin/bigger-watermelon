@@ -1,0 +1,60 @@
+{
+  "name": "watermelon-multiplayer-nuxt",
+  "version": "2.0.0",
+  "description": "合成大西瓜联机对战版 - Nuxt3重构版",
+  "private": true,
+  "scripts": {
+    "build": "nuxt build",
+    "dev": "nuxt dev",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "postinstall": "nuxt prepare",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "type-check": "nuxt typecheck",
+    "db:generate": "prisma generate",
+    "db:push": "prisma db push",
+    "db:migrate": "prisma migrate dev"
+  },
+  "keywords": [
+    "watermelon",
+    "game",
+    "multiplayer",
+    "nuxt3",
+    "websocket",
+    "vue3"
+  ],
+  "author": "Bigger Watermelon Team",
+  "license": "MIT",
+  "devDependencies": {
+    "@nuxt/devtools": "latest",
+    "@nuxt/eslint-config": "^0.2.0",
+    "@nuxtjs/tailwindcss": "^6.8.4",
+    "@types/bcryptjs": "^2.4.6",
+    "@types/jsonwebtoken": "^9.0.5",
+    "@types/ws": "^8.5.10",
+    "eslint": "^8.55.0",
+    "nuxt": "^3.8.4",
+    "typescript": "^5.3.3"
+  },
+  "dependencies": {
+    "@headlessui/vue": "^1.7.16",
+    "@heroicons/vue": "^2.0.18",
+    "@nuxtjs/color-mode": "^3.3.2",
+    "@pinia/nuxt": "^0.5.1",
+    "@prisma/client": "^5.7.1",
+    "@tailwindcss/forms": "^0.5.10",
+    "@vueuse/nuxt": "^10.5.0",
+    "bcryptjs": "^2.4.3",
+    "jsonwebtoken": "^9.0.2",
+    "pinia": "^2.1.7",
+    "prisma": "^5.7.1",
+    "socket.io": "^4.8.1",
+    "socket.io-client": "^4.8.1",
+    "ws": "^8.14.2",
+    "zod": "^3.22.4"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

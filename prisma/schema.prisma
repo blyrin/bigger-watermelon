@@ -1,0 +1,99 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  username  String   @unique
+  password  String
+  avatar    String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // 游戏统计
+  gamesPlayed Int @default(0)
+  gamesWon    Int @default(0)
+  totalScore  Int @default(0)
+  bestScore   Int @default(0)
+
+  // 关联
+  gameRecords GameRecord[]
+  roomMembers RoomMember[]
+  gameSessions GameSession[]
+
+  @@map("users")
+}
+
+model GameRoom {
+  id          String   @id @default(cuid())
+  name        String
+  password    String?
+  maxPlayers  Int      @default(2)
+  gameMode    String   // 'moves' | 'time'
+  gameLimit   Int      // 移动次数限制或时间限制(秒)
+  status      String   @default("waiting") // 'waiting' | 'playing' | 'finished'
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // 关联
+  members     RoomMember[]
+  gameRecords GameRecord[]
+
+  @@map("game_rooms")
+}
+
+model RoomMember {
+  id       String @id @default(cuid())
+  userId   String
+  roomId   String
+  isReady  Boolean @default(false)
+  isOwner  Boolean @default(false)
+  joinedAt DateTime @default(now())
+
+  // 关联
+  user User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  room GameRoom @relation(fields: [roomId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, roomId])
+  @@map("room_members")
+}
+
+model GameRecord {
+  id          String   @id @default(cuid())
+  roomId      String
+  playerId    String
+  score       Int      @default(0)
+  moves       Int      @default(0)
+  gameData    String?  // JSON格式的游戏状态数据
+  isWinner    Boolean  @default(false)
+  duration    Int?     // 游戏时长(秒)
+  createdAt   DateTime @default(now())
+
+  // 关联
+  room   GameRoom @relation(fields: [roomId], references: [id], onDelete: Cascade)
+  player User     @relation(fields: [playerId], references: [id], onDelete: Cascade)
+
+  @@map("game_records")
+}
+
+model GameSession {
+  id        String   @id @default(cuid())
+  userId    String
+  token     String   @unique
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+
+  // 关联
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("game_sessions")
+}
